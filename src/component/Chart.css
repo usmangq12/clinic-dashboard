@@ -1,0 +1,88 @@
+.label {
+    margin-bottom: 30px;
+    fill:white
+}
+.tick line
+{
+   stroke:rgb(199, 191, 191);
+
+   stroke-dasharray: 6 6 ;
+   shape-rendering: crispEdges;
+  
+}
+.tick text {
+  fill:white
+}
+.x.axis line {
+  stroke: white !important;
+}
+.domain {
+  stroke-width: 2px;
+ stroke:black
+}
+.lineAxis {
+    display:none;
+  
+    
+}
+.bar 
+{
+  pointer-events: all;
+} 
+.lineTooltip
+{
+  position:absolute;
+   
+    background-color: white;
+
+    color:black;
+    border:1px solid black;
+    border-radius:8px;
+    display:none;
+}
+.hover {
+   
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    background: rgba(0, 0, 0, 0.5); /* Add your desired background color or styles */
+    z-index: 1; /* Ensure the pseudo-element is above the image */
+  }
+  .tooltip 
+  {
+    position:absolute;
+   
+    background-color: white;
+
+    color:black;
+    border:1px solid white;
+    border-radius:8px;
+    display:none;
+    /* opacity:0 */
+
+  }
+  table {
+
+    
+    border:1px solid white;
+    border-radius:8px;
+    border:1px solid black;
+    overflow:hidden ;
+  }
+ th,  td{
+
+    border:1px solid white;
+    text-align: center;
+    color:grey;
+    padding:4px;
+
+}
+th {
+    color:white;
+
+}
+td {
+  color:white
+}
