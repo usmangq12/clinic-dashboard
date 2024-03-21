@@ -1,18 +1,13 @@
 "use client";
-import react, { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useRef } from "react";
 import "./Chart.css";
 import * as d3 from "d3";
+import { Patient } from "./data";
 
-interface patient {
-  date: Date;
-  admitted: number;
-  treatment: number;
-  recovered: number;
-}
-
-
-export const Stack = ({patientsData}:patient[]) => {
-  
+type Props = {
+  patientsData: Patient[];
+};
+export const Stack: React.FC<Props> = ({ patientsData }) => {
   const refrence = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
@@ -45,7 +40,7 @@ export const Stack = ({patientsData}:patient[]) => {
       .scaleOrdinal()
       .domain(["admitted", "treatment", "recovered"])
       .range(["#EA6E92", "#141543", "#7A78F7"]);
-    type stackOuterArray = { number: number; data: patient };
+    type stackOuterArray = { number: number; data: Patient };
     interface MyDataType {
       0: number;
       1: number;
@@ -146,26 +141,23 @@ export const Stack = ({patientsData}:patient[]) => {
         return;
       }
       let tooltipElement = document.getElementById("tooltip");
-       
-      const windowWidth = window.innerWidth;
-    const tooltipWidth = tooltipElement?.offsetWidth;
-   
-    const rightPosition = windowWidth - x - 120;
-    console.log("tooltipWidth",tooltipWidth,"rightPosition",rightPosition);
 
-      // Check if the element exists before attempting to remove it
-     
-      if (positionSetting>=1196) {
-        console.log("tooltipEelment?",tooltipElement);
-       if(tooltipElement?.style.left) {
-        tooltipElement.style.left = ''
-       }
-      }
-      else {
-        console.log("tooltipEelment?",tooltipElement);
-        if(tooltipElement?.style.right) {
-          tooltipElement.style.right = ''
-         }
+      const windowWidth = window.innerWidth;
+      const tooltipWidth = tooltipElement?.offsetWidth;
+
+      const rightPosition = windowWidth - x - 120;
+      console.log("tooltipWidth", tooltipWidth, "rightPosition", rightPosition);
+
+      if (positionSetting >= 1196) {
+        console.log("tooltipEelment?", tooltipElement);
+        if (tooltipElement?.style.left) {
+          tooltipElement.style.left = "";
+        }
+      } else {
+        console.log("tooltipEelment?", tooltipElement);
+        if (tooltipElement?.style.right) {
+          tooltipElement.style.right = "";
+        }
       }
       tooltip
         .html(html)
@@ -173,23 +165,20 @@ export const Stack = ({patientsData}:patient[]) => {
 
         .style(
           positionSetting >= 1196 ? "right" : "left",
-          positionSetting >= 1196 ? `${rightPosition}px` : `${positionSetting}px`
+          positionSetting >= 1196
+            ? `${rightPosition + 50}px`
+            : `${positionSetting}px`
         )
-        .style(
-          "top",
-          `${
-            positionSetting >= 1196
-              ? y + containerRect?.top + 500
-              : y + containerRect?.top + 500
-          }px`
-        );
+        .style("top", `${y + containerRect?.top + 700}px`);
     };
     const colorArrays: string[] = ["#EA6E92", "#141543", "#7A78F7"];
     colorArrays.map((item, index) => {
       const circle = gLine
         .append("g")
-        .attr("transform", `translate(${30 * ( index === 0 ? index + 0.8 : index + 0.7 ) * 4},-15)`);
-
+        .attr(
+          "transform",
+          `translate(${30 * (index === 0 ? index + 0.8 : index + 0.7) * 4},-15)`
+        );
 
       circle
         .append("circle")
@@ -242,7 +231,11 @@ export const Stack = ({patientsData}:patient[]) => {
   return (
     <>
       <svg ref={refrence}></svg>
-      <div className="tooltip" id = "tooltip" style={{ maxWidth: "333px",backgroundColor:"black" }}></div>
+      <div
+        className="tooltip"
+        id="tooltip"
+        style={{ maxWidth: "333px", backgroundColor: "black" }}
+      ></div>
     </>
   );
 };

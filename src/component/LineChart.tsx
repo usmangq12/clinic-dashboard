@@ -1,65 +1,52 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import "./Chart.css";
 import * as d3 from "d3";
+import { DataItem } from "./data";
 
-interface DataItem {
-  humidity: number;
-  temperature: number;
-  pressure: number;
-  timestamp: Date;
-  urination: boolean;
-  patientCondition: boolean;
-}
+type Props = {
+  data: DataItem[];
+};
+export const LineChart: React.FC<Props> = ({ data }) => {
 
-// const urinationData: { urinating: boolean; timestamp: Date }[] = data.map(
-//   (item) => ({ urination: item.urination, timestamp: item.timestamp })
-// );
-export const LineChart = ({ data }) => {
-  console.log("LineChart", data);
-  const temperatureData: { temperature: number; timestamp: Date }[] = data?.map(
-    (item) => ({ temperature: item.temperature, timestamp: item.timestamp })
-  );
-
-  const pressureData: { pressure: number; timestamp: Date }[] = data?.map(
-    (item) => ({ pressure: item.pressure, timestamp: item.timestamp })
-  );
-
-  const humidityData: { humidity: number; timestamp: Date }[] = data?.map(
-    (item) => ({ humidity: item.humidity, timestamp: item.timestamp })
-  );
-  const patientConditionData: { patientCondition: boolean; timestamp: Date }[] =
-    data?.map((item) => ({
-      patientCondition: item.patientCondition,
-      timestamp: item.timestamp,
-    }));
-
-  const completeData: [
-    { temperature: number; timestamp: Date }[],
-    { pressure: number; timestamp: Date }[],
-    { humidity: number; timestamp: Date }[]
-  ] = [temperatureData, pressureData, humidityData];
-  const colorArrays: string[] = ["#ff6666", "#66b366", "#9cc2cf"];
   const margin: { top: number; right: number; left: number; bottom: number } = {
     top: 40,
     right: 40,
     left: 60,
     bottom: 35,
   };
-
   const refrence = React.useRef<SVGSVGElement>(null);
+  const temperatureData: { temperature: number; timestamp: Date }[] = data?.map(
+    (item) => ({ temperature: item.temperature, timestamp: item.timestamp })
+  );
+  const pressureData: { pressure: number; timestamp: Date }[] = data?.map(
+    (item) => ({ pressure: item.pressure, timestamp: item.timestamp })
+  );
+  const humidityData: { humidity: number; timestamp: Date }[] = data?.map(
+    (item) => ({ humidity: item.humidity, timestamp: item.timestamp })
+  );
+  // const patientConditionData: { patientCondition: boolean; timestamp: Date }[] =
+  //   data?.map((item) => ({
+  //     patientCondition: item.patientCondition,
+  //     timestamp: item.timestamp,
+  //   }));
+  const completeData: [
+    { temperature: number; timestamp: Date }[],
+    { pressure: number; timestamp: Date }[],
+    { humidity: number; timestamp: Date }[]
+  ] = [temperatureData, pressureData, humidityData];
+  const colorArrays: string[] = ["#ff6666", "#66b366", "#9cc2cf"];
 
   const chart = () => {
     const svgContainer = refrence.current?.parentElement;
     const width = svgContainer ? svgContainer.clientWidth : 0;
     const height = svgContainer ? svgContainer.clientHeight : 0;
-    console.log("Width ** ", width, "Height ** ", height);
     const innerWidth: number = width - margin.left - margin.right;
     const innerHeight: number = height - margin.bottom - margin.top;
     const svg = d3
       .select(refrence.current)
       .attr("width", "100%")
-      .attr("height", "100%");
+     .attr("height", "450px");
 
     svg
       .append("text")
@@ -75,6 +62,66 @@ export const LineChart = ({ data }) => {
       const selectedColor = colorArrays.filter(
         (item, i) => i === index && item
       );
+
+      const handleToolTip = (event: MouseEvent, d: DataItem) => {
+        const html = ` <table   ><thead   ><tr><th >Date</th><th> ${
+          Object.keys(d)[0]
+        }</th></thead><tbody ><tr >
+    <td> ${d.timestamp.getDate()} ${d.timestamp.toLocaleString("default", {
+          month: "short",
+        })}</td>
+    <td> ${Object.values(d)[0]}</td>
+    
+    </tr>
+    </tbody></table> `;
+        const [x, y] = d3.pointer(event);
+        const svgContainer = refrence.current;
+        const containerRect = svgContainer?.getBoundingClientRect();
+        const positionSetting = x + containerRect?.left + 65;
+        if (
+          !containerRect?.top ||
+          !containerRect?.left ||
+          !containerRect?.right
+        ) {
+          return;
+        }
+        let tooltipElement = document.getElementById("tooltips");
+
+        const windowWidth = window.innerWidth;
+        const tooltipWidth = tooltipElement?.offsetWidth;
+
+        const rightPosition = windowWidth - x - 120;
+        console.log(
+          "tooltipWidth in Line Chart ",
+          tooltipWidth,
+          "Position Setting",
+          positionSetting,
+          "rightPosition in the Line chart ",
+          rightPosition
+        );
+
+        if (positionSetting >= 1196) {
+          console.log("tooltipEelment?", tooltipElement);
+          if (tooltipElement?.style.left) {
+            tooltipElement.style.left = "";
+          }
+        } else {
+          if (tooltipElement?.style.right) {
+            tooltipElement.style.right = "";
+          }
+        }
+        tooltip
+          .html(html)
+          .style("display", "block")
+
+          .style(
+            positionSetting >= 1196 ? "right" : "left",
+            positionSetting >= 1196
+              ? `${rightPosition + 50}px`
+              : `${positionSetting}px`
+          )
+          .style("top", `${y + containerRect?.top}px`);
+      };
 
       const X = (d: DataItem) => d.timestamp;
       const Y = (d: DataItem) => Object.values(d)[0];
@@ -116,26 +163,15 @@ export const LineChart = ({ data }) => {
         .attr("stroke", "transparent")
         .attr("stroke-width", 2)
         .attr("class", "lineToolTip");
-      const tooltip = d3.select(".tooltip");
-      d3.selectAll(".lineToolTip").on(
-        "mouseover",
-        (event: MouseEvent, d: DataItem) => {
-          const html = `<div style="background-color: black; padding: 4px; display:flex;gap:8px;border-radius:12px"><div style="display: flex; flex-direction:column; color:white;text-align:end;"><h4 style="text-align:center ; color:white">Date</h4><p style="color:white"> ${d.timestamp.getDate()} ${d.timestamp.toLocaleString(
-            "default",
-            { month: "short" }
-          )}</p></div><div style="display: flex; flex-direction:column;color:white"><h4 style ="color:white">${
-            Object.keys(d)[0]
-          }</h4><p style="text-align:center;color:white">${
-            Object.values(d)[0]
-          }</p></div></div>`;
-          const [x, y] = d3.pointer(event);
-          tooltip
-            .html(html)
-            .style("display", "block")
-            .style("left", `${x}px`)
-            .style("top", `${y + 60}px`);
-        }
-      );
+      const tooltip = d3.select(".tooltips");
+
+      d3.selectAll(".lineToolTip")
+        .on("mouseover", (event: MouseEvent, d: DataItem) => {
+          handleToolTip(event, d);
+        })
+        .on("mouseout", () => {
+          tooltip.style("display", "none");
+        });
       //   g.append("g")
       //   .selectAll("text")
       //   .data(result.filter(item => Object.values(item)[0]))
@@ -207,10 +243,14 @@ export const LineChart = ({ data }) => {
     chart();
   }, [data]);
 
-  return <svg ref={refrence}></svg>;
-
-  {
-    /* <button onClick={()=>setResult(patientConditionData)} style={{backgroundColor:"red",padding:"14px",color:"white"}}>Patient Condition</button>
-<button onClick={()=>setResult(urinationData)} style={{backgroundColor:"blue",padding:"14px",color:"white"}}>Urination</button> */
-  }
+  return (
+    <>
+      <svg ref={refrence}></svg>
+      <div className="tooltips" id="tooltips"></div>
+    </>
+  );
 };
+//   {
+//     /* <button onClick={()=>setResult(patientConditionData)} style={{backgroundColor:"red",padding:"14px",color:"white"}}>Patient Condition</button>
+// <button onClick={()=>setResult(urinationData)} style={{backgroundColor:"blue",padding:"14px",color:"white"}}>Urination</button> */
+//   }

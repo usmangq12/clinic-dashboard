@@ -1,11 +1,11 @@
-interface patient {
+export interface Patient {
   date: Date;
   admitted: number;
   treatment: number;
   recovered: number;
 }
 
-interface DataItem {
+export interface DataItem {
   humidity: number;
   temperature: number;
   pressure: number;
@@ -14,7 +14,7 @@ interface DataItem {
   patientCondition: boolean;
 }
 
-interface PieChartData {
+export interface PieChartData {
   category: string;
   value: number;
 }
@@ -513,7 +513,7 @@ export const hospitalData = [
         date: new Date(1703462400000),
         admitted: 47,
         treatment: 36,
-        recovered: 37,
+        recovered: 7,
       },
       {
         date: new Date(1703548800000),
@@ -748,7 +748,7 @@ export const hospitalData = [
       },
       {
         date: new Date(1703635200000),
-        admitted: 51,
+        admitted: 1,
         treatment: 23,
         recovered: 2,
       },
@@ -867,57 +867,57 @@ export const hospitalData = [
         patientCondition: false,
       },
       {
-        humidity: 60,
-        temperature: 80,
-        pressure: 50,
+        humidity: 50,
+        temperature: 60,
+        pressure:30,
         timestamp: new Date("2023-01-01T12:00:00.000Z"),
         urination: false,
         patientCondition: true,
       },
       {
-        humidity: 20,
-        temperature: 45,
-        pressure: 55,
+        humidity: 10,
+        temperature: 25,
+        pressure: 45,
         timestamp: new Date("2023-01-01T13:00:00.000Z"),
         urination: true,
         patientCondition: false,
       },
       {
-        humidity: 8,
-        temperature: 60,
-        pressure: 90,
+        humidity: 18,
+        temperature: 40,
+        pressure: 60,
         timestamp: new Date("2023-01-01T14:00:00.000Z"),
         urination: false,
         patientCondition: true,
       },
       {
-        humidity: 16,
-        temperature: 35,
-        pressure: 30,
+        humidity: 36,
+        temperature: 25,
+        pressure: 10,
         timestamp: new Date("2023-01-01T15:00:00.000Z"),
         urination: true,
         patientCondition: false,
       },
       {
-        humidity: 54,
-        temperature: 10,
+        humidity: 34,
+        temperature: 20,
         pressure: 20,
         timestamp: new Date("2023-01-01T16:00:00.000Z"),
         urination: false,
         patientCondition: true,
       },
       {
-        humidity: 10,
-        temperature: 98,
-        pressure: 15,
+        humidity: 30,
+        temperature: 88,
+        pressure: 5,
         timestamp: new Date("2023-01-01T17:00:00.000Z"),
         urination: false,
         patientCondition: false,
       },
     ],
     pieChartData: [
-      { category: "Male", value: 35 },
-      { category: "Female", value: 65 },
+      { category: "Male", value: 45 },
+      { category: "Female", value: 55 },
     ],
   },
 ];

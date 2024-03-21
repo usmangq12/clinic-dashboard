@@ -16,8 +16,8 @@ export const Header = ({ handlePatientData }) => {
         </p>
       </div>
       <select
-        style={{ backgroundColor: "#2B2B30" }}
-        className=" bg-black border-1 border-white text-white "
+     
+        className="border-1 border-white text-white bg-[#2B2B30] border border-white border-solid p-0.5 "
         name="Person 1"
         id="1"
         onChange={handleSelection}

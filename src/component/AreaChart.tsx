@@ -1,20 +1,18 @@
 "use client";
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import "./Chart.css";
 import * as d3 from "d3";
-interface DataItem {
-  humidity: number;
+type DataItem = {
   temperature: number;
-  pressure: number;
   timestamp: Date;
-  urination: boolean;
-  patientCondition: boolean;
-}
+};
 
+type Props = {
+  bodyTemperatureMockData: DataItem[];
+};
 
-export const AreaChart = ({ bodyTemperatureMockData }) => {
+export const AreaChart: React.FC<Props> = ({ bodyTemperatureMockData }) => {
   const refrence = React.useRef<SVGSVGElement>(null);
-  
   const margin: { top: number; right: number; left: number; bottom: number } = {
     top: 40,
     right: 40,
@@ -23,19 +21,21 @@ export const AreaChart = ({ bodyTemperatureMockData }) => {
   };
 
   const chart = () => {
-    const width = refrence.current?.parentElement?.clientWidth;
-    const height = refrence.current?.parentElement?.clientHeight;
+    const width = 770;
+    const height = 480;
+    console.log("Area height", height, "Area Widht", width);
     const innerWidth: number = width || 0 - margin.left - margin.right;
     const innerHeight: number = height || 0 - margin.bottom - margin.top;
+    d3.select(refrence.current).selectAll("*").remove();
     const svg = d3
       .select(refrence.current)
       .attr("width", "100%")
-      .attr("height", "100%");
+      .attr("height", "550px");
 
     svg
       .append("text")
       .text("Body Temperature of Patient")
-      .attr("transform", `translate(${(innerWidth / 2) - 100} ,20)`)
+      .attr("transform", `translate(${innerWidth / 2 - 100} ,20)`)
       .attr("class", "label");
 
     const g = svg
@@ -81,7 +81,6 @@ export const AreaChart = ({ bodyTemperatureMockData }) => {
       .attr("d", area(bodyTemperatureMockData));
   };
   useEffect(() => {
-    d3.select(refrence.current).selectAll("*").remove();
     chart();
   }, [bodyTemperatureMockData]);
 
