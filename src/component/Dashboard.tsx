@@ -5,7 +5,7 @@ import { LineChart } from "./LineChart";
 import { PieChart } from "./PieChart";
 import { Stack } from "./Stack";
 import { useState } from "react";
-import { hospitalData } from "./data";
+import { hospitalData } from "../constants/data";
 
 export const Dashboard = () => {
   const [patientData, setPatientData] = useState(hospitalData[0]);

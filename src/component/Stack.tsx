@@ -1,13 +1,14 @@
 "use client";
 import { useEffect, useRef } from "react";
-import "./Chart.css";
 import * as d3 from "d3";
-import { Patient } from "./data";
+import { Patient } from "@/constants/dataTypes";
 
 type Props = {
   patientsData: Patient[];
 };
+
 export const Stack: React.FC<Props> = ({ patientsData }) => {
+
   const refrence = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
@@ -169,7 +170,7 @@ export const Stack: React.FC<Props> = ({ patientsData }) => {
             ? `${rightPosition + 50}px`
             : `${positionSetting}px`
         )
-        .style("top", `${y + containerRect?.top + 700}px`);
+        .style("top", `${y + containerRect?.top + 690}px`);
     };
     const colorArrays: string[] = ["#EA6E92", "#141543", "#7A78F7"];
     colorArrays.map((item, index) => {

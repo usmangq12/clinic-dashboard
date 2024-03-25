@@ -1,8 +1,12 @@
-import React from "react";
+import React, { ChangeEvent } from "react";
 import Image from "next/image";
-import hospital from "@/component/hospitalIcon.png";
-export const Header = ({ handlePatientData }) => {
-  const handleSelection = (e) => {
+import hospital from "@/assets/hospitalIcon.png";
+
+type HeaderProps  =  {
+  handlePatientData: (value:string)=>void
+}
+export const Header = ({ handlePatientData } : HeaderProps) => {
+  const handleSelection = (e : ChangeEvent<HTMLSelectElement>) => {
     console.log("e.target.value", e.target.value);
     handlePatientData(e.target.value);
   };

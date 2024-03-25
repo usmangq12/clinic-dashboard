@@ -1,10 +1,6 @@
 import { useEffect, useRef } from "react";
 import * as d3 from "d3";
-import "./Chart.css";
-interface PieChartData {
-  category: string;
-  value: number;
-}
+import { PieChartData } from "@/constants/dataTypes";
 
 type Props = {
   pieChartData: PieChartData[];
@@ -15,7 +11,6 @@ export const PieChart: React.FC<Props> = ({ pieChartData }) => {
 
   useEffect(() => {
     d3.select(refrence.current).selectAll("*").remove();
-
     const width = 804 || 0;
     const height = 566 || 0;
     console.log("Pie Width", width, "Pie Height", height);

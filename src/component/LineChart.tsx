@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import "./Chart.css";
 import * as d3 from "d3";
-import { DataItem } from "./data";
+import { DataItem } from "@/constants/dataTypes";
 
 type Props = {
   data: DataItem[];

@@ -2,10 +2,7 @@
 import React, { useEffect } from "react";
 import "./Chart.css";
 import * as d3 from "d3";
-type DataItem = {
-  temperature: number;
-  timestamp: Date;
-};
+import { DataItem } from "@/constants/dataTypes";
 
 type Props = {
   bodyTemperatureMockData: DataItem[];
