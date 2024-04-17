@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect } from "react";
 import "./Chart.css";
-import * as d3 from "d3";
-import { DataItem } from "@/constants/dataTypes";
+import * as d3 from  "d3";
+import { AreaChartDate } from "@/constants/dataTypes";
 
 type Props = {
-  bodyTemperatureMockData: DataItem[];
+  bodyTemperatureMockData: AreaChartDate[];
 };
 
 export const AreaChart: React.FC<Props> = ({ bodyTemperatureMockData }) => {
@@ -39,17 +39,13 @@ export const AreaChart: React.FC<Props> = ({ bodyTemperatureMockData }) => {
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    const X = (d: DataItem) => d.timestamp;
-    const Y = (d: DataItem) => d.temperature;
+    const X = (d: AreaChartDate) => d.timestamp;
+    const Y = (d: AreaChartDate) => d.temperature;
     const scaleX = d3
-      .scaleTime()
-      .domain(
-        d3.extent(bodyTemperatureMockData, (d: DataItem) => d.timestamp) as [
-          DataItem[],
-          Date
-        ]
-      )
-      .range([0, innerWidth]);
+  .scaleTime()
+  .domain(d3.extent(bodyTemperatureMockData, (d: AreaChartDate) => d.timestamp) as [Date, Date])
+  .range([0, innerWidth]);
+
 
     const scaleY = d3
       .scaleLinear()
@@ -57,10 +53,10 @@ export const AreaChart: React.FC<Props> = ({ bodyTemperatureMockData }) => {
       .range([innerHeight, 0]);
 
     const area = d3
-      .area<DataItem>()
-      .x((d: DataItem) => scaleX(X(d)) || 0)
+      .area<AreaChartDate>()
+      .x((d: AreaChartDate) => scaleX(X(d)) || 0)
       .y0(innerHeight)
-      .y1((d: DataItem) => scaleY(Y(d)) || 0);
+      .y1((d: AreaChartDate) => scaleY(Y(d)) || 0);
 
     g.append("g")
       .call(d3.axisBottom(scaleX).tickSizeOuter(0).tickPadding(10))

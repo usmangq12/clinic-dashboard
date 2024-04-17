@@ -1,31 +1,34 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-// import { data } from "./LineFlag";
+import React, { useEffect } from "react";
 import * as d3 from "d3";
 const data = [
   {
-    name:"A",value:38,
-    
+    name: "A",
+    value: 38,
   },
   {
-    name:"B",value:90,
-    
+    name: "B",
+    value: 90,
   },
   {
-    name:"C",value:60
+    name: "C",
+    value: 60,
   },
-   {
-    name:"D",value:20
+  {
+    name: "D",
+    value: 20,
   },
-   {
-    name:"E",value:43
+  {
+    name: "E",
+    value: 43,
   },
-   {
-    name:"F",value:67
-  }
-]
+  {
+    name: "F",
+    value: 67,
+  },
+];
 export const BarChart = () => {
-  console.log("Data",data);
+  console.log("Data", data);
   const refrence = React.useRef<SVGSVGElement>(null);
   useEffect(() => {
     const margin: { top: number; right: number; left: number; bottom: number } =
@@ -54,40 +57,38 @@ export const BarChart = () => {
     //     d3.extent(data, (d) => d.timestamp)
     //   )
     //   .range([0, width]);
-     const xScale = d3.scaleBand().domain(data.map(d=>d.name)).range([0,width]) .padding(0.1);
-     const yScale = d3.scaleLinear().domain([0, d3.max(data, function(d) { return d.value; })]).range([height,0])
-    // const yScale = d3
-    //   .scaleBand()
-    //   .domain(data.map((d) => d.temperature))
-    //   .range([height, 0]);
+    const xScale = d3
+      .scaleBand()
+      .domain(data.map((d) => d.name))
+      .range([0, width])
+      .padding(0.1);
+
+    const maxValue = d3.max(data, (d) => d.value);
+    const domainMax = maxValue !== undefined ? maxValue : 0;
+
+    const yScale = d3.scaleLinear().domain([0, domainMax]).range([height, 0]);
+
     g.append("g")
       .call(d3.axisBottom(xScale))
       .attr("transform", `translate(0,${height})`);
     g.append("g").call(d3.axisLeft(yScale));
-    g.selectAll("rect").data(data).enter().append("rect").attr("x", function(d) { return xScale(d.name); })
+    g.selectAll("rect")
+      .data(data)
+      .enter()
+      .append("rect")
+      .attr("x", function (d) {
+        return xScale(d.name)!;
+      })
       .attr("width", xScale.bandwidth())
-      .attr("y", function(d) { return yScale(d.value); })
-      .attr("height", function(d) { return height - yScale(d.value); }).attr("fill","grey");
-    //   const area = d3
-    //   .area<any>()
-    //   .x(function(d, i) {
-    //     return i === data.length - 1 ?
-    //         xScale(d.name) + xScale.bandwidth() : xScale(d.name)
-    // })
-    //   .y0(yScale(0))
-    //   .y1((d: any) => yScale(d.value) || 0)
-    //   .curve(d3.curveBasis)
-     
-
-      // g.append("g")
-      // .append("path")
-      // .attr("fill", "grey")
-      // .attr("stroke", `grey`)
-      // .attr("stroke-width", 2)
-      // .attr("d", area(data));
-
+      .attr("y", function (d) {
+        return yScale(d.value);
+      })
+      .attr("height", function (d) {
+        return height - yScale(d.value);
+      })
+      .attr("fill", "grey");
   }, []);
-  
+
   return (
     <div>
       <svg ref={refrence}></svg>

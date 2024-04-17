@@ -25,10 +25,11 @@ export const PieChart: React.FC<Props> = ({ pieChartData }) => {
       right: 30,
     };
     const radius = Math.min(width, height) / 2;
-    const colorScale = d3
-      .scaleOrdinal()
+    const colorScale: d3.ScaleOrdinal<string, string> = d3
+      .scaleOrdinal<string>()
       .domain(pieChartData.map((d) => d.category))
       .range(["#4C84D4", "#224cb3"]);
+
     const g = svg
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top + 123})`);
@@ -44,14 +45,11 @@ export const PieChart: React.FC<Props> = ({ pieChartData }) => {
     pieChart
       .append("path")
       .attr("d", arc)
-      .attr("fill", (d: { data: PieChartData }) => colorScale(d.data.category));
+      .attr("fill", (d) => colorScale(d.data.category));
     pieChart
       .append("text")
       .attr("text-anchor", "middle")
-      .attr(
-        "transform",
-        (d: { data: PieChartData }) => `translate(${arc.centroid(d)} )`
-      )
+      .attr("transform", (d) => `translate(${arc.centroid(d)} )`)
       .text((d: { data: PieChartData }) => d.data.category)
       .style("font-size", "18px")
       .style("fill", "white");
