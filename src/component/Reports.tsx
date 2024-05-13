@@ -1,6 +1,6 @@
 "use client";
 import { PowerBIEmbed } from "powerbi-client-react";
-import React, {  useState } from "react";
+import React, { useEffect, useState } from "react";
 
 export const Reports = () => {
   const [component, setComponent] = useState<JSX.Element>();
@@ -59,7 +59,7 @@ export const Reports = () => {
           width="100%"
           height="100%"
           src="https://app.powerbi.com/reportEmbed?reportId=ce3ce840-5293-470a-a866-32e14a756464&autoAuth=true&ctid=1d7aa2e9-3a1a-4af4-9873-31cc6674969e"
-          frameborder="0"
+          frameBorder="0"
           allowFullScreen={true}
         ></iframe>
       </div>
