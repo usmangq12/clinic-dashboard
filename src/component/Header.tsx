@@ -17,7 +17,7 @@ export const Header = ({ handlePatientData }: HeaderProps) => {
       <div className="flex-1 flex gap-x-2  items-center ">
         <Image src={hospital} alt="Girl in a jacket" width="28" height="28" />
         <p className="text-white text-center text-xl ">
-          Patient Detial Reports
+          Clinical Patients Report
         </p>
        
       </div>
