@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
 import "./Chart.css";
-import * as d3 from  "d3";
+import * as d3 from "d3";
 import { AreaChartDate } from "@/constants/dataTypes";
 
 type Props = {
@@ -19,15 +19,14 @@ export const AreaChart: React.FC<Props> = ({ bodyTemperatureMockData }) => {
 
   const chart = () => {
     const width = 770;
-    const height = 480;
-    console.log("Area height", height, "Area Widht", width);
+    const height = 550;
     const innerWidth: number = width || 0 - margin.left - margin.right;
     const innerHeight: number = height || 0 - margin.bottom - margin.top;
     d3.select(refrence.current).selectAll("*").remove();
     const svg = d3
       .select(refrence.current)
       .attr("width", "100%")
-      .attr("height", "550px");
+      .attr("height", "650px");
 
     svg
       .append("text")
@@ -42,10 +41,14 @@ export const AreaChart: React.FC<Props> = ({ bodyTemperatureMockData }) => {
     const X = (d: AreaChartDate) => d.timestamp;
     const Y = (d: AreaChartDate) => d.temperature;
     const scaleX = d3
-  .scaleTime()
-  .domain(d3.extent(bodyTemperatureMockData, (d: AreaChartDate) => d.timestamp) as [Date, Date])
-  .range([0, innerWidth]);
-
+      .scaleTime()
+      .domain(
+        d3.extent(
+          bodyTemperatureMockData,
+          (d: AreaChartDate) => d.timestamp
+        ) as [Date, Date]
+      )
+      .range([0, innerWidth]);
 
     const scaleY = d3
       .scaleLinear()

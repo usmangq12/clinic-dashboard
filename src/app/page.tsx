@@ -1,6 +1,6 @@
 import React from "react";
-import { Dashboard } from "@/component/Dashboard";
+import { Clinic } from "@/component/Clinic";
 
 export default function Home() {
-  return <Dashboard />;
+  return <Clinic />;
 }

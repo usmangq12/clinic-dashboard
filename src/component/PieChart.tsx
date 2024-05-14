@@ -11,9 +11,8 @@ export const PieChart: React.FC<Props> = ({ pieChartData }) => {
 
   useEffect(() => {
     d3.select(refrence.current).selectAll("*").remove();
-    const width = 804 || 0;
-    const height = 566 || 0;
-    console.log("Pie Width", width, "Pie Height", height);
+    const width = 670 || 0;
+    const height = 300 || 0;
     const svg = d3
       .select(refrence.current)
       .attr("width", width)
@@ -21,18 +20,26 @@ export const PieChart: React.FC<Props> = ({ pieChartData }) => {
     const margin = {
       top: 160,
       bottom: 30,
-      left: 400,
+      left: 300,
       right: 30,
     };
+
+    svg
+      .append("text")
+      .text("Patients Admitted Percentage")
+      .attr("transform", `translate(${255},25)`)
+      .attr("class", "label")
+      .style("font-size", "22px");
+
     const radius = Math.min(width, height) / 2;
     const colorScale: d3.ScaleOrdinal<string, string> = d3
       .scaleOrdinal<string>()
       .domain(pieChartData.map((d) => d.category))
-      .range(["#4C84D4", "#224cb3"]);
+      .range(["#118DFF", "#12239E", "#E66C37"]);
 
     const g = svg
       .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top + 123})`);
+      .attr("transform", `translate(${margin.left + 110},${margin.top + 35})`);
     const pie = d3.pie<PieChartData>().value((d: PieChartData) => d.value);
     const arc = d3
       .arc<d3.PieArcDatum<PieChartData>>()
@@ -55,5 +62,5 @@ export const PieChart: React.FC<Props> = ({ pieChartData }) => {
       .style("fill", "white");
   }, [pieChartData]);
 
-  return <svg ref={refrence} className="pieChart"></svg>;
+  return <svg ref={refrence} style={{ height: "650px" }}></svg>;
 };

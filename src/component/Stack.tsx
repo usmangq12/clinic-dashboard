@@ -29,6 +29,12 @@ export const Stack: React.FC<Props> = ({ patientsData }) => {
         left: 60,
         bottom: 35,
       };
+    svgline
+      .append("text")
+      .text("Records of Patients")
+      .attr("transform", `translate(${755},30)`)
+      .attr("class", "label")
+      .style("font-size", "22px");
     const gLine = svgline
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
@@ -84,10 +90,8 @@ export const Stack: React.FC<Props> = ({ patientsData }) => {
 
     const series = d3.stack().keys(["admitted", "treatment", "recovered"]);
     const stackData = series(patientsData);
-    
 
     const handleToolTip = (event: PointerEvent, d: stackOuterArray) => {
-      console.log("Event**", event);
       const html = `<table   ><thead   ><tr><th >Hospital ID</th><th>Health Status</th><th>Count</th><th>Date</th></thead><tbody ><tr >
       <td>H123</td>
       <td>Admitted</td>
@@ -117,57 +121,51 @@ export const Stack: React.FC<Props> = ({ patientsData }) => {
     </tbody></table>`;
 
       const [x, y] = d3.pointer(event);
-      console.log("X", x, "Y", y);
       const svgContainer = refrence.current;
 
       const containerRect = svgContainer?.getBoundingClientRect();
       let positionSetting;
 
-      if (containerRect?.left) {
-        positionSetting = x + containerRect?.left + 65;
-      }
+      positionSetting = x + containerRect?.left + 65;
 
-      if (
-        !containerRect?.top ||
-        !containerRect?.left ||
-        !containerRect?.right
-      ) {
-        return;
-      }
+      // if (
+      //   !containerRect?.top ||
+      //   !containerRect?.left ||
+      //   !containerRect?.right
+      // ) {
+      //   return;
+      // }
       let tooltipElement = document.getElementById("tooltip");
 
       const windowWidth = window.innerWidth;
       const tooltipWidth = tooltipElement?.offsetWidth;
 
       const rightPosition = windowWidth - x - 120;
-      console.log("tooltipWidth", tooltipWidth, "rightPosition", rightPosition);
 
-     if(positionSetting) {
-      if (positionSetting >= 1196) {
-        console.log("tooltipEelment?", tooltipElement);
-        if (tooltipElement?.style.left) {
-          tooltipElement.style.left = "";
+      if (positionSetting) {
+        if (positionSetting >= 1196) {
+          if (tooltipElement?.style.left) {
+            tooltipElement.style.left = "";
+          }
+        } else {
+          if (tooltipElement?.style.right) {
+            tooltipElement.style.right = "";
+          }
         }
-      } else {
-        console.log("tooltipEelment?", tooltipElement);
-        if (tooltipElement?.style.right) {
-          tooltipElement.style.right = "";
-        }
+        tooltip
+          .html(html)
+          .style("display", "block")
+
+          .style(
+            positionSetting >= 1196 ? "right" : "left",
+            positionSetting >= 1196
+              ? `${rightPosition + 65}px`
+              : `${positionSetting}px`
+          )
+          .style("top", `${y + containerRect?.top + 72}px`);
       }
-      tooltip
-      .html(html)
-      .style("display", "block")
+    };
 
-      .style(
-        positionSetting >= 1196 ? "right" : "left",
-        positionSetting >= 1196
-          ? `${rightPosition + 50}px`
-          : `${positionSetting}px`
-      )
-      .style("top", `${y + containerRect?.top + 690}px`);
-  };
-     }
-     
     const colorArrays: string[] = ["#EA6E92", "#141543", "#7A78F7"];
     colorArrays.map((item, index) => {
       const circle = gLine
@@ -205,7 +203,6 @@ export const Stack: React.FC<Props> = ({ patientsData }) => {
     sel
       .selectAll("rect")
       .data((d) => {
-        console.log("D", d);
         return d;
       })
       .join("rect")
@@ -216,7 +213,7 @@ export const Stack: React.FC<Props> = ({ patientsData }) => {
       .attr("class", "bar");
     const tooltip = d3.select(".tooltip");
     d3.selectAll(".bar")
-      .on("mouseover", (event: PointerEvent, d ) => {
+      .on("mouseover", (event: PointerEvent, d) => {
         handleToolTip(event, d as stackOuterArray);
       })
 
