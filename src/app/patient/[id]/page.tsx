@@ -2,5 +2,5 @@ import { Dashboard } from "@/component/Dashboard";
 import React from "react";
 
 export default function Home() {
-  return <Dashboard />;
+  return  <div className="px-4"> <Dashboard /></div>;
 }

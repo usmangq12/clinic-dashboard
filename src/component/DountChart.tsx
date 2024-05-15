@@ -7,14 +7,14 @@ type Props = {
 };
 
 export const DountChart: React.FC<Props> = ({ dountChartData }) => {
-  const refrence = useRef<SVGSVGElement>(null);
+  const reference = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    d3.select(refrence.current).selectAll("*").remove();
-    const width = 770 || 0;
-    const height = 550 || 0;
+    d3.select(reference.current).selectAll("*").remove();
+    const width = 770;
+    const height = 550;
     const svg = d3
-      .select(refrence.current)
+      .select(reference.current)
       .attr("width", width)
       .attr("height", height);
     const margin = {
@@ -29,6 +29,7 @@ export const DountChart: React.FC<Props> = ({ dountChartData }) => {
       .text("Nurse Feedback")
       .attr("transform", `translate(${350},20)`)
       .attr("class", "label");
+   
 
     const radius = Math.min(width, height) / 2;
     const colorScale: d3.ScaleOrdinal<string, string> = d3
@@ -59,7 +60,29 @@ export const DountChart: React.FC<Props> = ({ dountChartData }) => {
       .text((d: { data: PieChartData }) => d.data.category)
       .style("font-size", "18px")
       .style("fill", "white");
+
+    const legend = svg.append("g")
+      .attr("transform", `translate(${690},${60})`);
+    
+    const legendItems = legend.selectAll("g")
+      .data(dountChartData)
+      .enter()
+      .append("g")
+      .attr("transform", (d, i) => `translate(0, ${i * 20})`);
+
+    legendItems.append("circle")
+      .attr("cx", 0)
+      .attr("cy", 0)
+      .attr("r", 6)
+      .attr("fill", (d) => colorScale(d.category));
+
+    legendItems.append("text")
+      .attr("x", 15)
+      .attr("y", 5)
+      .text((d) => d.category)
+      .style("fill", "white")
+      .style("font-size", "14px");
   }, [dountChartData]);
 
-  return <svg ref={refrence} style={{ height: "650px" }}></svg>;
+  return <svg ref={reference} style={{ height: "650px" }}></svg>;
 };

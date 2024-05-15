@@ -92,8 +92,8 @@ export const Stack: React.FC<Props> = ({ patientsData }) => {
     const stackData = series(patientsData);
 
     const handleToolTip = (event: PointerEvent, d: stackOuterArray) => {
-      const html = `<table   ><thead   ><tr><th >Hospital ID</th><th>Health Status</th><th>Count</th><th>Date</th></thead><tbody ><tr >
-      <td>H123</td>
+      const html = `<table   ><thead   ><tr><th >Clinic ID</th><th>Health Status</th><th>Count</th><th>Date</th></thead><tbody ><tr >
+      <td>#12121</td>
       <td>Admitted</td>
       <td>${d.data.admitted}</td>
       <td>${d.data.date.getDate()} ${d.data.date.toLocaleString("default", {

@@ -7,14 +7,15 @@ type Props = {
 };
 
 export const PieChart: React.FC<Props> = ({ pieChartData }) => {
-  const refrence = useRef<SVGSVGElement>(null);
+  const colorArrays = ["#118DFF", "#12239E", "#E66C37"];
+  const reference = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    d3.select(refrence.current).selectAll("*").remove();
-    const width = 670 || 0;
+    d3.select(reference.current).selectAll("*").remove();
+    const width = 770 || 0;
     const height = 300 || 0;
     const svg = d3
-      .select(refrence.current)
+      .select(reference.current)
       .attr("width", width)
       .attr("height", height);
     const margin = {
@@ -35,7 +36,7 @@ export const PieChart: React.FC<Props> = ({ pieChartData }) => {
     const colorScale: d3.ScaleOrdinal<string, string> = d3
       .scaleOrdinal<string>()
       .domain(pieChartData.map((d) => d.category))
-      .range(["#118DFF", "#12239E", "#E66C37"]);
+      .range(colorArrays);
 
     const g = svg
       .append("g")
@@ -60,7 +61,29 @@ export const PieChart: React.FC<Props> = ({ pieChartData }) => {
       .text((d: { data: PieChartData }) => d.data.category)
       .style("font-size", "18px")
       .style("fill", "white");
+
+    const legend = svg.append("g")
+      .attr("transform", `translate(${700},${ 40})`);
+    
+    const legendItems = legend.selectAll("g")
+      .data(pieChartData)
+      .enter()
+      .append("g")
+      .attr("transform", (d, i) => `translate(0, ${i * 20})`);
+
+    legendItems.append("circle")
+      .attr("cx", 0)
+      .attr("cy", 0)
+      .attr("r", 6)
+      .attr("fill", (d) => colorScale(d.category));
+
+    legendItems.append("text")
+      .attr("x", 15)
+      .attr("y", 5)
+      .text((d) => d.category)
+      .style("fill", "white")
+      .style("font-size", "14px");
   }, [pieChartData]);
 
-  return <svg ref={refrence} style={{ height: "650px" }}></svg>;
+  return <svg ref={reference} style={{ height: "650px" }}></svg>;
 };
