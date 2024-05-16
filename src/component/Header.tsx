@@ -31,25 +31,29 @@ export const Header = ({ handlePatientData }: HeaderProps) => {
   return (
     <div className="flex   justify-center items-center ">
       <div className="flex-1 flex gap-x-2  items-center ">
-        <Image src={hospital} alt="Girl in a jacket" width="28" height="28" />
+        <Image src={hospital} alt="Girl in a jacket" width="32" height="32" />
         <p className="text-white text-center text-xl ">
-          Clinical Patients Report
+          Clinic and Patient Management System
         </p>
       </div>
       <div className="mr-4 flex gap-x-4">
         <Link href="/" onClick={() => handleNavigation("home")}>
           <div
-            className={`p-2 border-white border-solid  border-[1px] rounded-xl hover:bg-white hover:text-black ${
-              navigation === "home" && " bg-white text-black"
-            } `}
+            className={` px-2 py-1 border-solid text-sm rounded-xl ${
+              navigation === "home"
+                ? " bg-white text-black hover:text-black "
+                : "hover:bg-neutral-700  hover:text-white"
+            }     `}
           >
             Home
           </div>
         </Link>
         <Link href="/report" onClick={() => handleNavigation("report")}>
           <div
-            className={`p-2 border-white border-solid  border-[1px] rounded-xl hover:bg-white hover:text-black ${
-              navigation === "report" && "bg-white text-black"
+            className={`px-2 py-1  border-solid text-sm  rounded-xl   ${
+              navigation === "report"
+                ? "bg-white text-black hover:text-black"
+                : "hover:bg-neutral-700 hover:text-white"
             } `}
           >
             Report
@@ -57,8 +61,10 @@ export const Header = ({ handlePatientData }: HeaderProps) => {
         </Link>
         <Link href="/patient/0" onClick={() => handleNavigation("patient")}>
           <div
-            className={`p-2 border-white border-solid  border-[1px] rounded-xl hover:bg-white hover:text-black  ${
-              navigation === "patient" && "bg-white text-black"
+            className={`px-2 py-1  border-solid text-sm rounded-xl   ${
+              navigation === "patient"
+                ? "bg-white text-black hover:text-black "
+                : "hover:bg-neutral-700 hover:text-white"
             }`}
           >
             Patient
@@ -67,7 +73,7 @@ export const Header = ({ handlePatientData }: HeaderProps) => {
       </div>
       {showDropdown && (
         <select
-          className="border-b-2  text-white bg-[#2B2B30]  border-white border-solid p-0.5  focus-visible:outline-0"
+          className="border-b-2 text-sm  text-white bg-[#2B2B30]  border-white border-solid p-0.5  focus-visible:outline-0"
           name="Person 1"
           id="1"
           onChange={handleSelection}

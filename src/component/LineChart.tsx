@@ -54,7 +54,7 @@ export const LineChart: React.FC<Props> = ({ data }: Props) => {
     svg
       .append("text")
       .text("Patient Room Environment")
-      .attr("transform", `translate(${innerWidth / 2},25)`)
+      .attr("transform", `translate(${(innerWidth / 2)-40},25)`)
       .attr("class", "label");
 
     const g = svg

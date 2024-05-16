@@ -26,7 +26,7 @@ export const DountChart: React.FC<Props> = ({ dountChartData }) => {
 
     svg
       .append("text")
-      .text("Nurse Feedback")
+      .text("Nurses Feedback")
       .attr("transform", `translate(${350},20)`)
       .attr("class", "label");
    

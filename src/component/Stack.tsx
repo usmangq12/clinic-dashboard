@@ -31,8 +31,8 @@ export const Stack: React.FC<Props> = ({ patientsData }) => {
       };
     svgline
       .append("text")
-      .text("Records of Patients")
-      .attr("transform", `translate(${755},30)`)
+      .text("Patients Record")
+      .attr("transform", `translate(${730},30)`)
       .attr("class", "label")
       .style("font-size", "22px");
     const gLine = svgline
@@ -101,7 +101,7 @@ export const Stack: React.FC<Props> = ({ patientsData }) => {
       })}</td>
     </tr>
     <tr >
-      <td>H123</td>
+      <td>#12121</td>
       <td>Treatment</td>
       <td>${d.data.treatment}</td>
       <td>${d.data.date.getDate()} ${d.data.date.toLocaleString("default", {
@@ -109,7 +109,7 @@ export const Stack: React.FC<Props> = ({ patientsData }) => {
       })}</td>
     </tr>
     <tr >
-      <td>H123</td>
+      <td>#12121</td>
       <td>Recovered</td>
       <td>${d.data.recovered}</td>
       <td>${d.data.date.getDate()} ${d.data.date.toLocaleString("default", {
